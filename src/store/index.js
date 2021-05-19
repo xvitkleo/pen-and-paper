@@ -98,19 +98,20 @@ export default new Vuex.Store({
         members: [],
       };
       await fb.roomsCollection.add(newRoom);
+      router.push('/home/room');
       commit('addRoom', newRoom);
     },
     async joinRoom({ state, dispatch }, roomId) {
       const room = state.rooms.find((e) => e.id === roomId);
       const members = [...room.members, { id: state.userProfile.id, photoURL: (state.userProfile.photoURL || '') }];
       await fb.roomsCollection.doc(room.id).update({ members });
+      router.push('/home/room');
       dispatch('fetchRooms');
     },
     async fetchRooms({ commit }) {
       const rooms = [];
       const snapshot = await fb.roomsCollection.get();
       snapshot.forEach((doc) => rooms.push({ id: doc.id, ...doc.data() }));
-      console.log(rooms);
       commit('setRooms', rooms);
     },
   },

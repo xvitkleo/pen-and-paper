@@ -34,6 +34,7 @@ export default {
   display: flex;
   min-height: 5em;
   max-height: 5em;
+  width: 100%;
   justify-content: space-between;
   border-bottom: solid 1px #222226;
 
