@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --inter: "Inter", sans-serif;
+  --primary-color: #ffb8b8;
+  --secondary-color: #181820;
+  --gray-light: #21212B;
+  --gray2: #414052;
+  --extra-color: #476B8C;
+  --gray: #767a88;
+  --danger: #eb5757;
+  --success: #6fcf97;
+  --warning: #f2c94c;
+
+  --lengthSm1: 0.25rem;
+  --lengthSm2: 0.5rem;
+  --lengthSm3: 0.75rem;
+
+  --lengthBase: 0.875rem;
+  --lengthMd1: 1rem;
+  --lengthMd2: 1.25rem;
+  --lengthMd3: 1.5rem;
+
+  --lengthLg1: 2rem;
+  --lengthLg2: 3rem;
+  --lengthLg3: 4rem;
+
+  --light: 300;
+  --regular: 400;
+  --medium: 500;
+  --semi-bold: 600;
+  --bold: 700;
+  --extra-bold: 800;
+  --black: 900;
+
+  --radiusBase: 12px;
+  --radiusSm: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, p, input, label {  
+  font-family: var(--inter);
+}
+
+h1 {
+  font-weight: var(--bold);
+  font-size: var(--lengthLg2);
+}
+
+h2 {
+  font-weight: var(--bold);
+  font-size: var(--lengthLg1);
+}
+
+h3 {
+  font-weight: var(--bold);
+  font-size: var(--lengthMd3);
+}
+
+h4 {
+  font-weight: var(--medium);
+  font-size: var(--lengthBase);
+}
+
+h5 {
+  font-weight: var(--medium);
+  font-size: var(--lengthMd1);
+}
+
+p {
+  font-weight: var(--regular);
+  font-size: var(--lengthBase);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--primary-color);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-light);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.041);;
+}
+
+.hidden {
+  display: none;
+}
