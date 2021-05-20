@@ -4,10 +4,11 @@
   --inter: "Inter", sans-serif;
   --primary-color: #ffb8b8;
   --secondary-color: #181820;
+  --black-color: #21212B;
+  --dark-color: #0D1117;
   --gray-light: #21212B;
-  --gray2: #414052;
-  --extra-color: #476B8C;
-  --gray: #767a88;
+  --extra-color: #9088D2;
+  --gray: #d9dadf;
   --danger: #eb5757;
   --success: #6fcf97;
   --warning: #f2c94c;
@@ -96,4 +97,8 @@ p {
 
 .hidden {
   display: none;
+}
+
+* {
+  color: white;
 }

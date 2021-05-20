@@ -5,7 +5,7 @@
         <img src="../assets/enter.svg" alt="">
       </div>
       <div class="roomCard__name">
-        <h3>{{room.name}}</h3>
+        <h2>{{room.name}}</h2>
       </div>
       <div class="roomCard__content">
         <div class="roomCard__data">
@@ -88,14 +88,14 @@ export default {
   border-radius: var(--radiusSm);
   background-color: var(--extra-color);
   height: 10em;
-  min-width: 17em;
-  max-width: 17em;
+  min-width: 15em;
+  max-width: 15em;
   display: flex;
   flex-flow: column;
   position: relative;
 
-  h3 {
-    padding-bottom: 1.1em;
+  h2 {
+    padding-bottom: .4em;
   }
 
   .roomCard__button-enter.return {
@@ -111,8 +111,8 @@ export default {
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 1.4em;
-    right: 1.8em;
+    top: 2.1em;
+    right: 1.4em;
 
     img {
       height: 1.1em;
@@ -122,7 +122,7 @@ export default {
 }
 
 .roomCard__container > div {
-  margin: 2em 2em;
+  margin: 1.7em 2em;
 }
 
 .roomCard__name {
@@ -154,6 +154,7 @@ export default {
         width: 100%;
         filter: brightness(0.4);
         opacity: .8;
+        border-radius: 50%;
       }
       h5 {
         top: 50%;
@@ -167,18 +168,18 @@ export default {
     height: 37px;
     width: 37px;
     border-radius: 50%;
-    bottom: 0px;
+    bottom: -10px;
     position: absolute;
     border: solid 2px var(--extra-color);
   }
   .roomCar__member:first-child {
-    left: 165px;
+    left: 150px;
   }
   .roomCar__member:nth-child(2) {
-    left: 140px;
+    left: 130px;
   }
   .roomCar__member:nth-child(3) {
-    left: 115px;
+    left: 110px;
   }
 }
 
@@ -189,7 +190,7 @@ export default {
 }
 
 .join__form {
-  padding: 2em 1em 1em 0;
+  padding: .5em 0 1em 0;
   & > * {
     margin-bottom: .5em;
     width: 85%;

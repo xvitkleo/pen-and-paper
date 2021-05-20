@@ -45,9 +45,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-* {
-  color: white;
-}
 .contactUs__container {
   background-color: var(--secondary-color);
   flex-grow: 1;

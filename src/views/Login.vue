@@ -87,6 +87,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  * {
+    color: var(--secondary-color);
+  }
 
   div {
     display: flex;
@@ -105,7 +108,6 @@ export default {
   position: relative;
 
   * {
-      color: white;
       text-align: center;
   }
 
@@ -120,7 +122,7 @@ export default {
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 34%;
+    width: 17em;
 
     & > div, .btn {
       margin-bottom: .9rem;

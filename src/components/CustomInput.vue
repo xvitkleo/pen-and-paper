@@ -79,8 +79,9 @@ export default {
 }
 
 .input__input.border {
-  border: 1px solid white;
+  border: 2px solid var(--black-color);
   padding: var(--lengthSm3) var(--lengthMd1);
+  background-color: var(--dark-color);
 }
 
 .input__input::placeholder {
@@ -92,7 +93,7 @@ export default {
 }
 
 .input__input.border:focus {
-  border: solid 1px var(--primary-color);
+  border: solid 2px var(--primary-color);
 }
 
 .input:focus-visible, .input__input:focus-visible {

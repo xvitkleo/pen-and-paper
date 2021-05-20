@@ -1,7 +1,6 @@
 <template>
   <div class='top-bar__container'>
     <div class="top-bar__tittle">
-      <h2>{{tittle}}</h2>
     </div>
     <account-box></account-box>
   </div>
@@ -32,18 +31,15 @@ export default {
 <style lang='scss' scoped>
 .top-bar__container {
   display: flex;
-  min-height: 5em;
-  max-height: 5em;
+  min-height: 4em;
+  max-height: 4em;
   width: 100%;
   justify-content: space-between;
   border-bottom: solid 1px #222226;
+  background-color: var(--black-color);
 
   .top-bar__tittle {
     margin: auto 4.5%;
-  }
-
-  * {
-    color: white;
   }
 }
 </style>

@@ -5,7 +5,7 @@
 
     <div class="account__content">
       <div class='account__body'>
-        <h3>Informacion Personal</h3>
+        <h3>Mi Cuenta</h3>
         <div class="account__profilePicture__container">
           <div class="account__profilePicture">
             <img :src="photoURL || userProfile.photoURL ||
@@ -108,9 +108,6 @@ export default {
   height: 100vh;
   flex-grow: 1;
   background-color: var(--secondary-color);
-  * {
-    color: white;
-  }
 
   .account__content {
     height: 100%;
@@ -121,8 +118,12 @@ export default {
   }
   .account__body {
     margin: auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
     border-radius: var(--radiusBase);
-    padding: 2em;
+    padding: 2.5em 3.5em;
+    min-height: 50%;
     width: 25em;
     text-align: center;
     background-color: var(--gray-light);
@@ -163,8 +164,8 @@ export default {
   }
 
   .account__profilePicture {
-    height: 70px;
-    width: 70px;
+    height: 100px;
+    width: 100px;
     margin: 1.5em;
     border-radius: 100%;
     position: relative;
@@ -175,8 +176,8 @@ export default {
     }
 
     .editProfilePicture__btn {
-      height: 1.5em;
-      width: 1.5em;
+      height: 1.7em;
+      width: 1.7em;
       bottom: 1px;
       right: 0;
       position: absolute;

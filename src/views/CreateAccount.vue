@@ -94,6 +94,7 @@ export default {
     width: 60%;
 
     * {
+      color: var(--secondary-color);
       margin-bottom: 1.3rem;
     }
   }
@@ -104,7 +105,6 @@ export default {
   position: relative;
 
   * {
-      color: white;
       text-align: center;
   }
 

@@ -39,7 +39,7 @@
               fill="#CCCCCC"/>
             </svg>
             </div>
-            <h4>Mi cuenta</h4>
+            <h4>Mi Cuenta</h4>
           </div>
         </router-link>
 
@@ -180,7 +180,7 @@ export default {
 
 <style lang='scss' scoped>
 .side-bar__container {
-  background-color: var(--secondary-color);
+  background-color: var(--black-color);
   border-right: solid 1px #222226;
 }
 
@@ -189,7 +189,7 @@ export default {
 }
 
 .sidebar__logo {
-    height: 7em;
+    height: 6em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,7 +202,7 @@ export default {
   width: 100%;
 
   .sidebar__items {
-    margin-top: 10%;
+    margin-top: 20%;
     display: flex;
     flex-flow: column;
     white-space: nowrap;
@@ -211,7 +211,8 @@ export default {
     }
     & > :last-child {
       padding-top: 1em;
-      border-top: solid 1px #222226;
+      border-top: solid 3px var(--secondary-color);
+      border-radius: 0;
     }
     h4 {
       font-weight: var(--bold);
@@ -228,7 +229,7 @@ export default {
   }
 
   .sidebar__link--active {
-    background-color: var(--gray-light);
+    background-color: var(--secondary-color);
     * {
       fill: var(--primary-color);
       color: white;

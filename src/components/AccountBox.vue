@@ -34,10 +34,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px #222226;
   .account-box__img {
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     margin-right: 1.5em;
     border-radius: 100%;
     overflow: hidden;

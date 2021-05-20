@@ -59,12 +59,9 @@ export default {
   height: 100vh;
   flex-grow: 1;
   background-color: var(--secondary-color);
-  * {
-    color: white;
-  }
 
   .room__body {
-    margin: 4.5%;
+    margin: 5%;
     h3 {
       padding-bottom: 1.2em;
     }
