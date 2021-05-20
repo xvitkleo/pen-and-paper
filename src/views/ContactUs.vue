@@ -19,10 +19,10 @@
       <p>Gerson Luis Cattaneo Carlos 20182435@aloe.ulima.edu.pe (Product Owner)</p>
       <p>Gonzalo José Vásquez Torreblanca 20171641@aloe.ulima.edu.pe Development Team</p>
       <p>Leonardo Joaquín Porras Moreno 20171210@aloe.ulima.edu.pe Development Team</p>
-      <p>Gonzalo José Vásquez Torreblanca 20171641@aloe.ulima.edu.pe Development Team</p>
-      <p>Leonardo Joaquín Porras Moreno 20171210@aloe.ulima.edu.pe Development Team</p>
-      <p>Gonzalo José Vásquez Torreblanca 20171641@aloe.ulima.edu.pe Development Team</p>
-      <p>Leonardo Joaquín Porras Moreno 20171210@aloe.ulima.edu.pe Development Team</p>
+      <p>SIMA CHAVEZ CARLO FABRIZZIO 20153346@aloe.ulima.edu.pe Development Team</p>
+      <p>HUAYNALAYA VENTURA JUAN CARLOS 20172236@aloe.ulima.edu.pe  Development Team</p>
+      <p>ORTEGA APESTEGUI LUIS RODRIGO 20172423@aloe.ulima.edu.pe Development Team</p>
+      <p>DURAND VIDAL ALEX NICOLAS 20132742@aloe.ulima.edu.pe Development Team</p>
     </div>
   </div>
 </template>
