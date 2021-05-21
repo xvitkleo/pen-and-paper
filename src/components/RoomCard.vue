@@ -70,10 +70,11 @@ export default {
     },
 
     joinRoom() {
-      if (this.room.password === this.password
-      && !this.room.members.includes(this.userProfile.id)) {
-        this.$store.dispatch('joinRoom', this.room.id);
-      } else console.log('contraseña incorrecta');
+      if (!this.userProfile.roomId) {
+        if (this.room.password === this.password) {
+          this.$store.dispatch('joinRoom', this.room.id);
+        } else alert('Contraseña incorrecta');
+      } else alert('Ya pertenece a una sala');
     },
   },
 

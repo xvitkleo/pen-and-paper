@@ -16,10 +16,6 @@ export default {
   },
 
   props: {
-    tittle: {
-      type: String,
-      required: true,
-    },
   },
 
   data() {

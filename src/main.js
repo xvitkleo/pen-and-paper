@@ -19,11 +19,7 @@ auth.onAuthStateChanged((user) => {
   }
 
   if (user) {
-    console.log('app');
-    console.log(user);
-    console.log('app');
-    if (user.providerData[0].providerId === 'google.com') store.dispatch('fetchGoogleProfile', user);
-    else store.dispatch('fetchUserProfile', user);
+    store.dispatch('fetchUserProfile', user);
     store.dispatch('fetchRooms');
   }
 });

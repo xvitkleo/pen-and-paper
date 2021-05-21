@@ -1,8 +1,5 @@
 <template>
   <div class='account__container'>
-    <top-bar v-if="userProfile.name" tittle='Mi Cuenta'>
-    </top-bar>
-
     <div class="account__content">
       <div class='account__body'>
         <h3>Mi Cuenta</h3>
@@ -37,9 +34,12 @@
               :initialValue="userProfile.lastname"/>
           </div>
 
-          <custom-input v-else class="googleAccount" placeholder='Nombre y Apellido'
-            :value="userProfile.name" :disabled='true' id="name" label="Nombre" :border="false"/>
-
+          <div v-else class="googleAccount">
+            <custom-input class="googleAccount" :value="userProfile.name"
+              :disabled='true' id="name" label="Nombre" :border="false"/>
+            <custom-input class="googleAccount" :value="userProfile.lastname"
+              :disabled='true' id="lastname" label="Apellido" :border="false"/>
+          </div>
           <custom-button class="save__btn" v-if="!userProfile.isGoogle"
           v-on:click='updateProfile'>Guardar Cambios</custom-button>
         </form>
@@ -52,14 +52,12 @@
 import { mapState } from 'vuex';
 import CustomInput from '../components/CustomInput.vue';
 import CustomButton from '../components/CustomButton.vue';
-import TopBar from '../components/TopBar.vue';
 
 export default {
   name: 'MyAccount',
   components: {
     CustomButton,
     CustomInput,
-    TopBar,
   },
 
   data() {
@@ -88,6 +86,7 @@ export default {
         name: this.name !== '' ? this.name : this.userProfile.name,
         lastname: this.lastname !== '' ? this.lastname : this.userProfile.lastname,
         photoURL: this.photoURL !== '' ? this.photoURL : this.userProfile.photoURL,
+        roomId: this.userProfile.roomId,
       });
     },
   },
@@ -105,8 +104,6 @@ export default {
 .account__container {
   display: flex;
   flex-flow: column;
-  height: 100vh;
-  flex-grow: 1;
   background-color: var(--secondary-color);
 
   .account__content {
@@ -145,10 +142,23 @@ export default {
       margin-bottom: 2em;
       margin-left: 0;
     }
+    .mailAccount {
+      margin-bottom: 0;
+      div {
+        width: 100%;
+        margin-bottom: 2em;
+      }
+    }
 
-    .mailAccount div{
-      width: 100%;
-      margin-bottom: 1.2em;
+    .googleAccount {
+      margin-bottom: 0;
+      div {
+        width: 100%;
+        margin-bottom: 1em;
+      }
+      div:first-child {
+        margin-bottom: 2em;
+      }
     }
 
     .save__btn {

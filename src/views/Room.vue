@@ -1,23 +1,20 @@
 <template>
   <div class='room__container'>
-    <top-bar v-if="userProfile.name" tittle='Sala'
-    :name='userProfile.name' :lastname="userProfile.isGoogle ? '' : userProfile.lastname">
-    </top-bar>
-
     <div class='room__body'>
-      <h3>Bienvenido a la sala!</h3>
+      <h3 v-if="userProfile.roomId">
+        Bienvenido a la sala: {{ getRoomById(userProfile.roomId).name }}
+      </h3>
+      <h3 v-else>No pertenece a ninguna sala</h3>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import TopBar from '../components/TopBar.vue';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'Room',
   components: {
-    TopBar,
   },
 
   data() {
@@ -34,6 +31,7 @@ export default {
 
   computed: {
     ...mapState(['userProfile', 'rooms']),
+    ...mapGetters(['getRoomById']),
   },
 };
 </script>
@@ -42,8 +40,6 @@ export default {
 .room__container {
   display: flex;
   flex-flow: column;
-  height: 100vh;
-  flex-grow: 1;
   background-color: var(--secondary-color);
 
   .room__body {

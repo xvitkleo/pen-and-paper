@@ -1,11 +1,7 @@
 <template>
   <div class='room__container'>
-    <top-bar v-if="userProfile.name" tittle='Unirse a Sala'
-    :name='userProfile.name' :lastname="userProfile.isGoogle ? '' : userProfile.lastname">
-    </top-bar>
-
     <div class='room__body'>
-      <h3>Únete a una sala!</h3>
+      <h3>Únete a una sala</h3>
       <form class='room__form' @submit.prevent>
         <custom-input placeholder='Nombre de la sala' v-model='searchField' />
       </form>
@@ -24,13 +20,11 @@
 import { mapState } from 'vuex';
 import CustomInput from '../components/CustomInput.vue';
 import RoomCard from '../components/RoomCard.vue';
-import TopBar from '../components/TopBar.vue';
 
 export default {
   name: 'JoinRoom',
   components: {
     CustomInput,
-    TopBar,
     RoomCard,
   },
 
@@ -56,8 +50,6 @@ export default {
 .room__container {
   display: flex;
   flex-flow: column;
-  height: 100vh;
-  flex-grow: 1;
   background-color: var(--secondary-color);
 
   .room__body {

@@ -1,11 +1,7 @@
 <template>
   <div class='room__container'>
-    <top-bar v-if="userProfile.name" tittle='Unirse a Sala'
-    :name='userProfile.name' :lastname="userProfile.isGoogle ? '' : userProfile.lastname">
-    </top-bar>
-
     <div class='room__body'>
-      <h3>Crea tu propia sala!</h3>
+      <h3>Crea tu propia sala</h3>
       <form class='room__form' @submit.prevent>
         <custom-input placeholder='Nombre de la sala' v-model='name'/>
         <custom-input placeholder='Tema de la sala' v-model='theme' />
@@ -21,14 +17,12 @@
 import { mapState } from 'vuex';
 import CustomInput from '../components/CustomInput.vue';
 import CustomButton from '../components/CustomButton.vue';
-import TopBar from '../components/TopBar.vue';
 
 export default {
   name: 'CreateRoom',
   components: {
     CustomButton,
     CustomInput,
-    TopBar,
   },
 
   data() {
@@ -42,12 +36,14 @@ export default {
 
   methods: {
     createRoom() {
-      this.$store.dispatch('createRoom', {
-        name: this.name,
-        theme: this.theme,
-        length: this.length,
-        password: this.password,
-      });
+      if (!this.userProfile.roomId) {
+        this.$store.dispatch('createRoom', {
+          name: this.name,
+          theme: this.theme,
+          length: this.length,
+          password: this.password,
+        });
+      } else alert('Ya pertenece a una sala');
     },
   },
 
@@ -64,12 +60,10 @@ export default {
 .room__container {
   display: flex;
   flex-flow: column;
-  height: 100vh;
-  flex-grow: 1;
   background-color: var(--secondary-color);
 
   .room__body {
-    margin: 4.5%;
+    margin: 5%;
     h3 {
       padding-bottom: 1.2em;
     }
