@@ -88,16 +88,13 @@ export default {
 .roomCard__container {
   border-radius: var(--radiusSm);
   background-color: var(--extra-color);
-  height: 10em;
-  min-width: 15em;
-  max-width: 15em;
+  height: 12em;
+  min-width: 19em;
+  max-width: 19em;
   display: flex;
   flex-flow: column;
+  justify-content: space-between;
   position: relative;
-
-  h2 {
-    padding-bottom: .4em;
-  }
 
   .roomCard__button-enter.return {
     transform: scaleX(-1);
@@ -123,11 +120,22 @@ export default {
 }
 
 .roomCard__container > div {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
   margin: 1.7em 2em;
 }
 
 .roomCard__name {
   margin-bottom: .5em;
+  display: flex;
+  max-width: 90%;
+  * {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 
 .roomCard__data {
@@ -166,21 +174,21 @@ export default {
     }
   }
   .roomCar__member, .roomCard__extraMembers {
-    height: 37px;
-    width: 37px;
+    height: 45px;
+    width: 45px;
     border-radius: 50%;
-    bottom: -10px;
+    bottom: -5px;
     position: absolute;
     border: solid 2px var(--extra-color);
   }
   .roomCar__member:first-child {
-    left: 150px;
+    left: 190px;
   }
   .roomCar__member:nth-child(2) {
-    left: 130px;
+    left: 170px;
   }
   .roomCar__member:nth-child(3) {
-    left: 110px;
+    left: 150px;
   }
 }
 
@@ -191,7 +199,7 @@ export default {
 }
 
 .join__form {
-  padding: .5em 0 1em 0;
+  padding: 1.5em 0 1em 0;
   & > * {
     margin-bottom: .5em;
     width: 85%;
