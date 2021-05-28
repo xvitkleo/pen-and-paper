@@ -31,7 +31,9 @@
       <div class="roomCard__button-enter return" @click="handleSelect">
         <img src="../assets/enter.svg" alt="">
       </div>
-      <custom-input placeholder='Contraseña' type='password' v-model='password' />
+      <custom-input placeholder='Contraseña' type='password'
+        v-model='password' :borderReverse="true"
+      />
       <custom-button v-on:click='joinRoom'>Unirse</custom-button>
     </div>
   </div>
@@ -72,7 +74,8 @@ export default {
     joinRoom() {
       if (!this.userProfile.roomId) {
         if (this.room.password === this.password) {
-          this.$store.dispatch('joinRoom', this.room.id);
+          if (this.room.members.length < this.room.length) this.$store.dispatch('joinRoom', this.room.id);
+          else alert('Sala llena');
         } else alert('Contraseña incorrecta');
       } else alert('Ya pertenece a una sala');
     },
@@ -87,8 +90,8 @@ export default {
 <style lang='scss' scoped>
 .roomCard__container {
   border-radius: var(--radiusSm);
-  background-color: var(--extra-color);
-  height: 12em;
+  background-color: var(--black-color);
+  height: 11em;
   min-width: 19em;
   max-width: 19em;
   display: flex;
@@ -101,11 +104,11 @@ export default {
   }
 
   .roomCard__button-enter {
-    background-color: white;
     border-radius: 100%;
-    height: 1.5em;
-    width: 1.5em;
+    height: 1.2em;
+    width: 1.2em;
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
     position: absolute;
@@ -113,8 +116,8 @@ export default {
     right: 1.4em;
 
     img {
-      height: 1.1em;
-      width: 1.1em;
+      height: 1.3em;
+      width: 1.3em;
     }
   }
 }
@@ -124,11 +127,11 @@ export default {
   display: flex;
   flex-flow: column;
   justify-content: space-evenly;
-  margin: 1.7em 2em;
+  margin: 2em 2em;
 }
 
 .roomCard__name {
-  margin-bottom: .5em;
+  margin-bottom: 1.5em;
   display: flex;
   max-width: 90%;
   * {
@@ -179,7 +182,7 @@ export default {
     border-radius: 50%;
     bottom: -5px;
     position: absolute;
-    border: solid 2px var(--extra-color);
+    border: solid 3.5px var(--black-color);
   }
   .roomCar__member:first-child {
     left: 190px;
@@ -193,6 +196,7 @@ export default {
 }
 
 .roomCard__content * {
+  color: var(--light-gray);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;

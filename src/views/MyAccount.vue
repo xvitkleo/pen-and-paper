@@ -83,6 +83,7 @@ export default {
 
     updateProfile() {
       this.$store.dispatch('updateProfile', {
+        id: this.userProfile.id,
         name: this.name !== '' ? this.name : this.userProfile.name,
         lastname: this.lastname !== '' ? this.lastname : this.userProfile.lastname,
         photoURL: this.photoURL !== '' ? this.photoURL : this.userProfile.photoURL,

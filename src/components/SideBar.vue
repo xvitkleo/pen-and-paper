@@ -197,11 +197,11 @@ export default {
 }
 
 .side-bar__container * {
-  color: white;
+  color: var(--white-color);
 }
 
 .sidebar__logo {
-    height: 6em;
+    height: 5em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -235,8 +235,8 @@ export default {
     text-decoration: none;
     border-radius: var(--radiusSm);
     * {
-      fill: rgba(255, 255, 255, 0.6);
-      color: rgba(255, 255, 255, 0.6);
+      fill: var(--light-gray);
+      color: var(--light-gray);
     }
   }
 
@@ -244,26 +244,26 @@ export default {
     background-color: var(--secondary-color);
     * {
       fill: var(--primary-color);
-      color: white;
+      color: var(--white-color);
     }
   }
 
   .sidebar__item {
-    margin: .9em 2.5em .9em 2.5em;
+    margin: .9em 1.8em .9em 1.8em;
     display: flex;
     align-items: center;
 
     &:hover * {
       transition: all .2s ease-out;
-      color: white;
+      color: var(--white-color);
       fill: var(--primary-color);
     }
     .sidebar__svg {
-      margin-right: 1.1em;
+      margin-right: 1.6em;
       display: flex;
       svg {
-        height: 25px;
-        width: 25px;
+        height: 20px;
+        width: 20px;
       }
     }
     h4 {

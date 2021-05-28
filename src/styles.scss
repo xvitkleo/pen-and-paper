@@ -4,11 +4,13 @@
   --inter: "Inter", sans-serif;
   --primary-color: #ffb8b8;
   --secondary-color: #181820;
+  --white-color: #e0dfe2;
   --black-color: #21212B;
   --dark-color: #0D1117;
   --gray-light: #21212B;
   --extra-color: #772CE8;
   --gray: #d9dadf;
+  --light-gray: #A6A6AA;
   --danger: #eb5757;
   --success: #6fcf97;
   --warning: #f2c94c;
@@ -84,15 +86,15 @@ p {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--primary-color);
+  background: var(--secondary-color);
   border-radius: 20px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--gray-light);
+  background: var(--primary-color);
   border-radius: 20px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(128, 128, 128, 0.041);;
+  background: #f88a8a;
 }
 
 .hidden {
@@ -100,5 +102,5 @@ p {
 }
 
 * {
-  color: white;
+  color: var(--white-color);
 }

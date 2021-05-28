@@ -9,8 +9,8 @@
       :placeholder="placeholder"
       :disabled="disabled"
       @input="$emit('input', $event.target.value)"
-      :class="border ? (disabled ? 'input__input border disabled' : 'input__input border')
-      : (disabled ? 'input__input disabled' : 'input__input')"
+      class="input__input"
+      :class="{'border': border, 'disabled': disabled, 'borderReverse': borderReverse}"
     />
     <span class='icon'>
       <slot name='icon'></slot>
@@ -35,6 +35,11 @@ export default {
       type: Boolean,
       required: false,
       default: true,
+    },
+    borderReverse: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     failedValidation: Boolean,
     disabled: {
@@ -72,7 +77,7 @@ export default {
   background-color: transparent;
   padding: 0;
   border: none;
-  border-radius: var(--radiusBase);
+  border-radius: 0;
   transition: box-shadow 150ms;
   height: 100%;
   width: 100%;
@@ -82,6 +87,11 @@ export default {
   border: 2px solid var(--black-color);
   padding: var(--lengthSm3) var(--lengthMd1);
   background-color: var(--dark-color);
+  border-radius: var(--radiusBase);
+}
+
+.input__input.borderReverse{
+  border: 2px solid var(--secondary-color);
 }
 
 .input__input::placeholder {

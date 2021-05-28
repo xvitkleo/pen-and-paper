@@ -75,15 +75,13 @@ export default {
   }
 
   .roomCards__container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 19em);
+    gap: 1em;
     width: 100%;
     max-height: 60vh;
     overflow-y: scroll;
     border-radius: var(--radiusBase);
-    & > div {
-      margin: 0 1em 1em 0;
-    }
   }
 }
 </style>

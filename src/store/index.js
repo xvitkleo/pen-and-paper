@@ -31,24 +31,34 @@ export default new Vuex.Store({
       commit('setUserProfile', {});
       router.push('/login');
     },
-    async loginWithGoogle({ dispatch }) {
+    async loginWithGoogle({ state, dispatch }) {
       const provider = new fb.firebase.auth.GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
       fb.firebase.auth().signInWithPopup(provider).then((result) => {
         /** @type {firebase.auth.OAuthCredential} */
         // let credential = result.credential;
         // let token = credential.accessToken;
+        console.log(result.additionalUserInfo.isNewUser);
         if (result.additionalUserInfo.isNewUser) {
           fb.usersCollection.doc(result.user.uid).set({
             name: result.additionalUserInfo.profile.given_name,
-            lastname: result.additionalUserInfo.profile.family_name,
+            lastname: result.additionalUserInfo.profile.family_name || '',
             email: result.additionalUserInfo.profile.email,
             photoURL: result.additionalUserInfo.profile.picture,
             isGoogle: true,
             roomId: '',
           });
+          dispatch('fetchUserProfile', result.user);
+        } else {
+          dispatch('fetchUserProfile', result.user).then(() => {
+            dispatch('updateProfile', {
+              id: result.user.uid,
+              name: result.additionalUserInfo.profile.given_name,
+              lastname: result.additionalUserInfo.profile.family_name || '',
+              photoURL: result.additionalUserInfo.profile.picture,
+              roomId: state.userProfile.roomId,
+            });
+          });
         }
-        dispatch('fetchUserProfile', result.user);
       }).catch((error) => {
         console.log(`error ${error}`);
       });
@@ -82,7 +92,7 @@ export default new Vuex.Store({
       dispatch('fetchUserProfile', user);
     },
     async updateProfile({ state, dispatch }, user) {
-      await fb.usersCollection.doc(state.userProfile.id).update({
+      await fb.usersCollection.doc(user.id).update({
         name: user.name,
         lastname: user.lastname,
         photoURL: user.photoURL,

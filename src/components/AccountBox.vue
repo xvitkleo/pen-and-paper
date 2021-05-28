@@ -35,8 +35,8 @@ export default {
   justify-content: center;
   align-items: center;
   .account-box__img {
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     margin-right: 1.5em;
     border-radius: 100%;
     overflow: hidden;
