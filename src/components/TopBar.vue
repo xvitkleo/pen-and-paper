@@ -32,7 +32,7 @@ export default {
   width: 100%;
   justify-content: space-between;
   border-bottom: solid 1px #222226;
-  background-color: var(--black-color);
+  background-color: var(--light-secondary-color);
 
   .top-bar__tittle {
     margin: auto 4.5%;

@@ -1,11 +1,11 @@
 <template>
   <div class="roomCard__container">
-    <div v-if="!selected">
+    <div v-if="!selected" class="room__info">
       <div class="roomCard__button-enter" @click="handleSelect">
         <img src="../assets/enter.svg" alt="">
       </div>
       <div class="roomCard__name">
-        <h2>{{room.name}}</h2>
+        <h3>{{room.name}}</h3>
       </div>
       <div class="roomCard__content">
         <div class="roomCard__data">
@@ -16,26 +16,26 @@
       <div class="roomCard__members">
           <template v-for="index in (room.members.length ? (room.members.length > 1 ? 2 : 1) : 0)">
             <img :key="index" class="roomCar__member"
-              :src="room.members[index-1].photoURL || require('@/assets/profilePicture.png')" alt=""
+              :src="room.members[index-1].photoURL || require('@/assets/profilePicture.svg')" alt=""
             >
           </template>
           <div v-if="room.members.length > 2" class="roomCar__member roomCard__extraMembers">
             <div>
-              <img :src="require('@/assets/profilePicture.png')" alt="">
+              <img :src="require('@/assets/profilePicture.svg')" alt="">
               <h5>+{{ room.members.length-2 }}</h5>
             </div>
           </div>
         </div>
     </div>
-    <div v-else class="join__form">
+    <form v-else class="join__form" @submit="joinRoom">
       <div class="roomCard__button-enter return" @click="handleSelect">
         <img src="../assets/enter.svg" alt="">
       </div>
       <custom-input placeholder='Contraseña' type='password'
         v-model='password' :borderReverse="true"
       />
-      <custom-button v-on:click='joinRoom'>Unirse</custom-button>
-    </div>
+      <custom-button type="submit">Unirse</custom-button>
+    </form>
   </div>
 </template>
 
@@ -90,17 +90,23 @@ export default {
 <style lang='scss' scoped>
 .roomCard__container {
   border-radius: var(--radiusSm);
-  background-color: var(--black-color);
-  height: 11em;
-  min-width: 19em;
-  max-width: 19em;
+  background-color: var(--light-secondary-color);
+  height: 9.1em;
+  min-width: 17em;
+  max-width: 17em;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
   position: relative;
-
   .roomCard__button-enter.return {
     transform: scaleX(-1);
+  }
+
+  &:hover {
+    background-color: #242433;
+    h2 {
+      color: white;
+    }
   }
 
   .roomCard__button-enter {
@@ -116,8 +122,8 @@ export default {
     right: 1.4em;
 
     img {
-      height: 1.3em;
-      width: 1.3em;
+      height: 1.2em;
+      width: 1.2em;
     }
   }
 }
@@ -126,12 +132,12 @@ export default {
   height: 100%;
   display: flex;
   flex-flow: column;
-  justify-content: space-evenly;
-  margin: 2em 2em;
+  justify-content: space-between;
+  margin: 1.8em;
 }
 
 .roomCard__name {
-  margin-bottom: 1.5em;
+  margin-bottom: 1em;
   display: flex;
   max-width: 90%;
   * {
@@ -165,7 +171,6 @@ export default {
         height: 100%;
         width: 100%;
         filter: brightness(0.4);
-        opacity: .8;
         border-radius: 50%;
       }
       h5 {
@@ -182,30 +187,34 @@ export default {
     border-radius: 50%;
     bottom: -5px;
     position: absolute;
-    border: solid 3.5px var(--black-color);
+    border: solid 3.5px var(--light-secondary-color);
   }
   .roomCar__member:first-child {
-    left: 190px;
+    left: 160px;
   }
   .roomCar__member:nth-child(2) {
-    left: 170px;
+    left: 140px;
   }
   .roomCar__member:nth-child(3) {
-    left: 150px;
+    left: 120px;
   }
 }
 
 .roomCard__content * {
-  color: var(--light-gray);
+  color: var(--gray);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
 
 .join__form {
-  padding: 1.5em 0 1em 0;
+  height: 100%;
+  margin: 0 1.8em;
+  padding: 1.5em 0;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
   & > * {
-    margin-bottom: .5em;
     width: 85%;
   }
 }

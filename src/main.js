@@ -19,7 +19,6 @@ auth.onAuthStateChanged((user) => {
   }
 
   if (user) {
-    store.dispatch('fetchUserProfile', user);
-    store.dispatch('fetchRooms');
+    store.dispatch('fetchData', user);
   }
 });

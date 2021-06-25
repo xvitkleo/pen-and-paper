@@ -9,9 +9,9 @@
     </div>
 
     <div class='leftView'>
-      <form @submit.prevent>
+      <form @submit="login">
         <h2>Iniciar Sesion.</h2>
-        <custom-button :variant="'text'" v-on:click="loginWithGoogle">
+        <custom-button type="button" :variant="'text'" v-on:click="loginWithGoogle">
           <div>
             <img src='../assets/googleLogo.svg' alt='' />
             <div>Continuar con Google</div>
@@ -21,7 +21,7 @@
 
         <custom-input placeholder="Email" type="email" v-model="loginForm.email"/>
         <custom-input placeholder="Password" type="password" v-model="loginForm.password"/>
-        <custom-button v-on:click="login">Iniciar Sesion.</custom-button>
+        <custom-button type="submit" >Iniciar Sesión.</custom-button>
 
         <div class="createAccount">
           <h4>¿No tienes una cuenta?</h4>

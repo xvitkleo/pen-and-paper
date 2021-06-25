@@ -1,7 +1,7 @@
 <template>
   <div class='account-box__container'>
     <div class="account-box__img">
-      <img :src="userProfile.photoURL || require('@/assets/profilePicture.png')" alt="">
+      <img :src="userProfile.photoURL || require('@/assets/profilePicture.svg')" alt="">
     </div>
     <h4>{{ userProfile.name + ' ' + (!userProfile.isGoogle ? userProfile.lastname : '') }}</h4>
   </div>

@@ -52,6 +52,23 @@ const routes = [
         name: 'Room',
         path: '/home/room',
         component: () => import('../views/Room.vue'),
+        children: [
+          {
+            name: 'RoomFiles',
+            path: '/home/room/files',
+            component: () => import('../views/RoomFiles.vue'),
+          },
+          {
+            name: 'ShareScreen',
+            path: '/home/room/share',
+            component: () => import('../views/ShareScreen.vue'),
+          },
+        ],
+      },
+      {
+        name: 'Test',
+        path: '/home/test',
+        component: () => import('../views/test.vue'),
       },
     ],
   },

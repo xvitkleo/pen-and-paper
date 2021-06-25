@@ -49,7 +49,7 @@ export default {
   flex-flow: column;
   flex-grow: 1;
   .view {
-    flex-grow: 1;
+    height: calc(100% - 4em);
   }
 }
 </style>

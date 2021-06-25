@@ -9,16 +9,17 @@
     </div>
 
     <div class='leftView'>
-      <form @submit.prevent>
+      <form @submit="signUp">
         <h2>Crear Cuenta.</h2>
         <div class="namesData">
-          <custom-input placeholder="Nombre" v-model="signupForm.name"/>
-          <custom-input placeholder="Apellido" v-model="signupForm.lastname"/>
+          <custom-input placeholder="Nombre" v-model="signupForm.name" :required="true"/>
+          <custom-input placeholder="Apellido" v-model="signupForm.lastname" :required="true"/>
         </div>
 
-        <custom-input placeholder="Email" type="email" v-model="signupForm.email"/>
-        <custom-input placeholder="Contraseña" type="password" v-model="signupForm.password"/>
-        <custom-button v-on:click="signUp">Crear Cuenta.</custom-button>
+        <custom-input placeholder="Email" type="email" v-model="signupForm.email" :required="true"/>
+        <custom-input placeholder="Contraseña" type="password"
+          v-model="signupForm.password" :required="true" />
+        <custom-button type="submit">Crear Cuenta.</custom-button>
 
         <div class="login">
           <h4>¿Tienes una cuenta?</h4>

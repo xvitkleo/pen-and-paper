@@ -8,6 +8,9 @@
       :type='type'
       :placeholder="placeholder"
       :disabled="disabled"
+      :required="required"
+      :min="min"
+      :max="max"
       @input="$emit('input', $event.target.value)"
       class="input__input"
       :class="{'border': border, 'disabled': disabled, 'borderReverse': borderReverse}"
@@ -25,6 +28,8 @@
 export default {
   name: 'CustomInput',
   props: {
+    min: Number,
+    max: Number,
     label: String,
     id: String,
     value: String,
@@ -42,6 +47,9 @@ export default {
       default: false,
     },
     failedValidation: Boolean,
+    required: {
+      default: false,
+    },
     disabled: {
       default: false,
     },
@@ -84,10 +92,10 @@ export default {
 }
 
 .input__input.border {
-  border: 2px solid var(--black-color);
+  border: 2px solid var(--light-secondary-color);
   padding: var(--lengthSm3) var(--lengthMd1);
   background-color: var(--dark-color);
-  border-radius: var(--radiusBase);
+  border-radius: var(--radiusSm);
 }
 
 .input__input.borderReverse{

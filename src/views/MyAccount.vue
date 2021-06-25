@@ -6,7 +6,7 @@
         <div class="account__profilePicture__container">
           <div class="account__profilePicture">
             <img :src="photoURL || userProfile.photoURL ||
-              require('@/assets/profilePicture.png')" alt="">
+              require('@/assets/profilePicture.svg')" alt="">
             <label for="upload-photo">
               <img v-if="!userProfile.isGoogle" class="editProfilePicture__btn"
                 src="../assets/edit.svg" alt="">
@@ -20,7 +20,6 @@
           <custom-input
             id="email"
             label="Email"
-            placeholder='Email'
             :value='userProfile.email'
             type='email'
             :border="false"
@@ -28,9 +27,9 @@
           />
           <div class="mailAccount" v-if="!userProfile.isGoogle && userProfile.name">
             <custom-input id="name" label="Nombre" :border="false"
-              placeholder='Nombre' v-model='name' :value="name" :initialValue="userProfile.name"/>
+              v-model='name' :value="name" :initialValue="userProfile.name"/>
             <custom-input id="lastname" label="Apellido" :border="false"
-              placeholder='Apellido' v-model='lastname' :value="lastname"
+              v-model='lastname' :value="lastname"
               :initialValue="userProfile.lastname"/>
           </div>
 
@@ -124,7 +123,7 @@ export default {
     min-height: 50%;
     width: 25em;
     text-align: center;
-    background-color: var(--gray-light);
+    background-color: var(--light-secondary-color);
   }
 
   .account__img {
@@ -192,6 +191,7 @@ export default {
       bottom: 1px;
       right: 0;
       position: absolute;
+      cursor: pointer;
     }
   }
 }

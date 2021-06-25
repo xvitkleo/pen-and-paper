@@ -38,9 +38,15 @@ export default {
     btnVariant() {
       switch (this.variant) {
         case 'text':
-          return 'btn--text';
+          return 'btn__text';
+        case 'text2':
+          return 'btn__text2';
+        case 'text2-danger':
+          return 'btn__text2--danger';
+        case 'danger':
+          return 'btn__danger';
         default:
-          return 'btn--primary';
+          return 'btn__primary';
       }
     },
   },
@@ -60,26 +66,44 @@ export default {
   font-size: var(--lengthBase);
   font-weight: var(--medium);
   text-align: center;
-  border-radius: var(--lengthSm1);
   border: 1px solid;
   transition: background-color 300ms;
 }
 
-.btn--primary {
+.btn__primary {
   color: white;
   background-color: var(--primary-color);
   border-color: var(--primary-color);
-  border-radius: var(--radiusBase);
+  border-radius: var(--radiusSm);
 }
 
-.btn--text {
+.btn__danger {
+  color: white;
+  background-color: var(--danger);
+  border-color: var(--danger);
+  border-radius: var(--radiusSm);
+}
+
+.btn__text {
   color: white;
   background-color: transparent;
   border-color: white;
-  border-radius: var(--radiusBase);
+  border-radius: var(--radiusSm);
 }
 
-.btn--primary:hover:not(:disabled) {
+.btn__text2 {
+  color: white;
+  background-color: transparent;
+  border: none
+}
+
+.btn__text2--danger {
+  color: var(--danger);
+  background-color: transparent;
+  border: none
+}
+
+.btn__primary:hover:not(:disabled) {
 }
 
 .btn:disabled {

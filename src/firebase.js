@@ -1,6 +1,7 @@
 import { firebase } from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/firestore';
+import '@firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAeGnZRcK1pHenf0YQvCOIfj2VGkf4_8Mo',
@@ -17,8 +18,10 @@ firebase.initializeApp(firebaseConfig);
 // utils
 const db = firebase.firestore();
 const auth = firebase.auth();
+const storage = firebase.storage();
 const usersCollection = db.collection('users');
 const roomsCollection = db.collection('rooms');
+const messagesCollection = db.collection('messages');
 
 // collection references
 
@@ -28,5 +31,7 @@ export {
   auth,
   usersCollection,
   roomsCollection,
+  messagesCollection,
   firebase,
+  storage,
 };

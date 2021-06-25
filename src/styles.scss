@@ -5,12 +5,10 @@
   --primary-color: #ffb8b8;
   --secondary-color: #181820;
   --white-color: #e0dfe2;
-  --black-color: #21212B;
-  --dark-color: #0D1117;
-  --gray-light: #21212B;
-  --extra-color: #772CE8;
-  --gray: #d9dadf;
-  --light-gray: #A6A6AA;
+  --light-secondary-color: #21212B;
+  --dark-color: #0d111765;
+  --gray: #6f6d77;
+  --light-gray: #514B65;
   --danger: #eb5757;
   --success: #6fcf97;
   --warning: #f2c94c;
@@ -48,7 +46,7 @@
   -moz-box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, p, input, label {  
+h1, h2, h3, h4, h5, p, input, label, a {  
   font-family: var(--inter);
 }
 
@@ -83,11 +81,7 @@ p {
 }
 
 ::-webkit-scrollbar {
-  width: 7px;
-}
-::-webkit-scrollbar-track {
-  background: var(--secondary-color);
-  border-radius: 20px;
+  width: 4px;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--primary-color);
@@ -103,4 +97,5 @@ p {
 
 * {
   color: var(--white-color);
+  box-sizing: border-box;
 }

@@ -3,7 +3,7 @@
     <div class='room__body'>
       <h3>Únete a una sala</h3>
       <form class='room__form' @submit.prevent>
-        <custom-input placeholder='Nombre de la sala' v-model='searchField' />
+        <search-input v-model='searchField'/>
       </form>
       <div class="roomCards__container">
         <room-card
@@ -18,14 +18,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import CustomInput from '../components/CustomInput.vue';
+import SearchInput from '../components/SearchInput.vue';
 import RoomCard from '../components/RoomCard.vue';
 
 export default {
   name: 'JoinRoom',
   components: {
-    CustomInput,
     RoomCard,
+    SearchInput,
   },
 
   data() {
@@ -53,7 +53,7 @@ export default {
   background-color: var(--secondary-color);
 
   .room__body {
-    margin: 5%;
+    margin: 4.5%;
     h3 {
       padding-bottom: 1.2em;
     }
@@ -76,7 +76,7 @@ export default {
 
   .roomCards__container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 19em);
+    grid-template-columns: repeat(auto-fill, 17em);
     gap: 1em;
     width: 100%;
     max-height: 60vh;
