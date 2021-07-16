@@ -15,40 +15,48 @@
             @change="handleFileChange"/>
           </div>
         </div>
-        <form :class="userProfile.isGoogle ? 'account__form' : 'account__form mail'"
-        @submit.prevent>
-          <custom-input
-            id="email"
-            label="Email"
-            :value='userProfile.email'
-            type='email'
-            :border="false"
-            :disabled='true'
-          />
-          <div class="mailAccount" v-if="!userProfile.isGoogle && userProfile.name">
-            <custom-input id="name" label="Nombre" :border="false"
-              v-model='name' :value="name" :initialValue="userProfile.name"/>
-            <custom-input id="lastname" label="Apellido" :border="false"
-              v-model='lastname' :value="lastname"
-              :initialValue="userProfile.lastname"/>
-          </div>
+        <validation-observer tag='div' v-slot="{ handleSubmit, invalid }">
+          <form :class="userProfile.isGoogle ? 'account__form' : 'account__form mail'"
+            @submit.prevent='handleSubmit(updateProfile)'>
+            <custom-input
+              id="email"
+              label="Email"
+              :value='userProfile.email'
+              type='email'
+              :border="false"
+              :disabled='true'
+            />
+            <div class="mailAccount" v-if="!userProfile.isGoogle && userProfile.name">
+              <custom-input id="name" label="Nombre" :border="false"
+                v-model='name' :value="name" rules='required'/>
+              <custom-input id="lastname" label="Apellido" :border="false"
+                v-model='lastname' :value="lastname"
+                rules='required'/>
+            </div>
 
-          <div v-else class="googleAccount">
-            <custom-input class="googleAccount" :value="userProfile.name"
-              :disabled='true' id="name" label="Nombre" :border="false"/>
-            <custom-input class="googleAccount" :value="userProfile.lastname"
-              :disabled='true' id="lastname" label="Apellido" :border="false"/>
-          </div>
-          <custom-button class="save__btn" v-if="!userProfile.isGoogle"
-          v-on:click='updateProfile'>Guardar Cambios</custom-button>
-        </form>
+            <div v-else class="googleAccount">
+              <custom-input class="googleAccount" :value="userProfile.name"
+                :disabled='true' id="name" label="Nombre" :border="false"/>
+              <custom-input class="googleAccount" :value="userProfile.lastname"
+                :disabled='true' id="lastname" label="Apellido" :border="false"/>
+            </div>
+            <custom-button class="save__btn"
+              v-if="!userProfile.isGoogle"
+              type="submit"
+              :disabled="invalid"
+            >
+              Guardar Cambios
+            </custom-button>
+          </form>
+        </validation-observer>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { ValidationObserver } from 'vee-validate';
 import CustomInput from '../components/CustomInput.vue';
 import CustomButton from '../components/CustomButton.vue';
 
@@ -57,6 +65,7 @@ export default {
   components: {
     CustomButton,
     CustomInput,
+    ValidationObserver,
   },
 
   data() {
@@ -68,6 +77,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setAlert']),
     handleFileChange(e) {
       const index = 0;
       this.selectedFile = e.target.files[index];
@@ -80,18 +90,37 @@ export default {
       };
     },
 
-    updateProfile() {
-      this.$store.dispatch('updateProfile', {
-        id: this.userProfile.id,
-        name: this.name !== '' ? this.name : this.userProfile.name,
-        lastname: this.lastname !== '' ? this.lastname : this.userProfile.lastname,
-        photoURL: this.photoURL !== '' ? this.photoURL : this.userProfile.photoURL,
-        roomId: this.userProfile.roomId,
-      });
+    async updateProfile() {
+      try {
+        await this.$store.dispatch('updateProfile', {
+          id: this.userProfile.id,
+          name: this.name !== '' ? this.name : this.userProfile.name,
+          lastname: this.lastname !== '' ? this.lastname : this.userProfile.lastname,
+          photoURL: this.photoURL !== '' ? this.photoURL : this.userProfile.photoURL,
+          roomId: this.userProfile.roomId,
+        });
+
+        this.setAlert({
+          state: 'success',
+          message: 'Perfil actualizado',
+        });
+      } catch (err) {
+        this.setAlert({
+          state: 'error',
+          message: 'No se pudo actualizar, por favor vuelve a intentarlo',
+        });
+      }
     },
   },
 
   mounted() {
+    this.name = this.userProfile.name;
+    this.lastname = this.userProfile.lastname;
+  },
+
+  beforeUpdate() {
+    this.name = this.userProfile.name;
+    this.lastname = this.userProfile.lastname;
   },
 
   computed: {

@@ -13,7 +13,7 @@
         </div>
         <div v-else class="screen__emptyState">
           <img class="emptyState__img" src="@/assets/screenEmptyState.svg" alt="">
-          {{ watching = false }}
+          <div class="hide">{{ watching = false }}</div>
         </div>
       </div>
       <div class="shareScreen__tools">
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import CustomButton from '../components/CustomButton.vue';
 
 export default {
@@ -49,6 +49,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setAlert']),
     connectionInit() {
       this.connection = new window.RTCMultiConnection();
       this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'; // reemplazar https://github.com/muaz-khan/RTCMultiConnection/blob/master/docs/api.md
@@ -61,7 +62,6 @@ export default {
         OfferToReceiveVideo: true,
       };
       this.connection.onstream = (event) => {
-        console.log(this.$refs);
         this.$refs.screen__container.appendChild(event.mediaElement);
         this.$refs.screen__container.children[0].style.height = '100%';
       };
@@ -71,7 +71,6 @@ export default {
       if (!this.sharingScreen) {
         this.$store.dispatch('shareScreen');
         this.connectionInit();
-        console.log(this.room.id);
         this.connection.open(this.room.id);
       }
     },
@@ -84,17 +83,24 @@ export default {
           OfferToReceiveVideo: true,
         };
         this.connection.join(this.room.id);
-      } else alert('ya estas viendo');
+      } else {
+        this.setAlert({
+          state: 'error',
+          message: 'Ya esta viendo',
+        });
+      }
     },
     stopSharing() {
-      this.$store.dispatch('stopSharing');
-      this.connection.getAllParticipants().forEach((pid) => {
-        this.connection.disconnectWith(pid);
-      });
-      this.connection.attachStreams.forEach((localStream) => {
-        localStream.stop();
-      });
-      this.connection.closeSocket();
+      if (this.sharingScreen) this.$store.dispatch('stopSharing');
+      if (this.connection) {
+        this.connection.getAllParticipants().forEach((pid) => {
+          this.connection.disconnectWith(pid);
+        });
+        this.connection.attachStreams.forEach((localStream) => {
+          localStream.stop();
+        });
+        this.connection.closeSocket();
+      }
     },
   },
 
@@ -107,7 +113,7 @@ export default {
     document.head.appendChild(recaptchaScript2);
   },
 
-  destroyed() {
+  beforeDestroy() {
     if (this.room.sharingId === this.userProfile.id) this.stopSharing();
   },
 
@@ -163,6 +169,10 @@ export default {
       align-items: flex-end;
       justify-content: center;
     }
+  }
+
+  .hide {
+    display: none;
   }
 }
 </style>

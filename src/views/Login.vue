@@ -9,33 +9,40 @@
     </div>
 
     <div class='leftView'>
-      <form @submit="login">
-        <h2>Iniciar Sesion.</h2>
-        <custom-button type="button" :variant="'text'" v-on:click="loginWithGoogle">
-          <div>
-            <img src='../assets/googleLogo.svg' alt='' />
-            <div>Continuar con Google</div>
+      <ValidationObserver
+        ref="form"
+        v-slot="{ handleSubmit }"
+      >
+        <form @submit.prevent='handleSubmit(login)'>
+          <h2>Iniciar Sesion.</h2>
+          <custom-button type='button' variant='text' v-on:click='loginWithGoogle'>
+            <div>
+              <img src='../assets/googleLogo.svg' alt='' />
+              <div>Continuar con Google</div>
+            </div>
+          </custom-button>
+          <div><h4>o</h4></div>
+
+          <custom-input vid="email" placeholder='Email' type='email'
+            v-model='loginForm.email' rules="required"/>
+          <custom-input vid="password" placeholder='Password' type='password'
+            v-model='loginForm.password' rules="required"/>
+          <custom-button type='submit' >Iniciar Sesión.</custom-button>
+          <div class='createAccount'>
+            <h4>¿No tienes una cuenta?</h4>
+            <router-link to='/createaccount'>
+              <h4 class='btn createAccount'>Crear Cuenta</h4>
+            </router-link>
           </div>
-        </custom-button>
-        <div><h4>o</h4></div>
-
-        <custom-input placeholder="Email" type="email" v-model="loginForm.email"/>
-        <custom-input placeholder="Password" type="password" v-model="loginForm.password"/>
-        <custom-button type="submit" >Iniciar Sesión.</custom-button>
-
-        <div class="createAccount">
-          <h4>¿No tienes una cuenta?</h4>
-          <router-link to='/createaccount'>
-            <h4 class="btn createAccount">Crear Cuenta</h4>
-          </router-link>
-        </div>
-
-      </form>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import { ValidationObserver } from 'vee-validate';
 import CustomButton from '../components/CustomButton.vue';
 import CustomInput from '../components/CustomInput.vue';
 
@@ -45,6 +52,7 @@ export default {
   components: {
     CustomButton,
     CustomInput,
+    ValidationObserver,
   },
   data() {
     return {
@@ -56,15 +64,45 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setAlert']),
     loginWithGoogle() {
       this.$store.dispatch('loginWithGoogle');
     },
-    login() {
-      this.$store.dispatch('login', {
-        email: this.loginForm.email,
-        password: this.loginForm.password,
-      });
+    async login() {
+      try {
+        await this.$store.dispatch('login', {
+          email: this.loginForm.email,
+          password: this.loginForm.password,
+        });
+        this.setAlert({
+          state: 'success',
+          message: 'Ha iniciado sesion',
+        });
+      } catch (e) {
+        this.setErrorMessage(e);
+      }
     },
+
+    setErrorMessage(error) {
+      switch (error.code) {
+        case 'auth/wrong-password':
+          this.$refs.form.setErrors({
+            password: ['La contraseña ingresada es incorrecta.'],
+          });
+          break;
+        case 'auth/user-not-found':
+          this.$refs.form.setErrors({
+            email: ['El usuario ingresado no fue encontrado.'],
+          });
+          break;
+        default:
+          this.$refs.form.setErrors({
+            password: ['Ocurrio un error, por favor inténtalo de nuevo.'],
+          });
+          break;
+      }
+    },
+
   },
 };
 </script>

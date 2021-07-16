@@ -27,20 +27,24 @@
           </div>
         </div>
     </div>
-    <form v-else class="join__form" @submit="joinRoom">
-      <div class="roomCard__button-enter return" @click="handleSelect">
-        <img src="../assets/enter.svg" alt="">
-      </div>
-      <custom-input placeholder='Contraseña' type='password'
-        v-model='password' :borderReverse="true"
-      />
-      <custom-button type="submit">Unirse</custom-button>
-    </form>
+    <ValidationObserver ref='form' v-else tag='div' v-slot="{ handleSubmit, invalid }">
+      <form class="join__form" @submit.prevent="handleSubmit(joinRoom)">
+        <div class="roomCard__button-enter return" @click="handleSelect">
+          <img src="../assets/enter.svg" alt="">
+        </div>
+        <custom-input id="password" placeholder='Contraseña' type='password'
+          v-model='password' :borderReverse="true"
+          :rules="`required|correct_password:${room.password}`"
+        />
+        <custom-button type="submit" :disabled="invalid">Unirse</custom-button>
+      </form>
+    </ValidationObserver>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { ValidationObserver } from 'vee-validate';
 import CustomInput from './CustomInput.vue';
 import CustomButton from './CustomButton.vue';
 
@@ -50,6 +54,7 @@ export default {
   components: {
     CustomInput,
     CustomButton,
+    ValidationObserver,
   },
 
   data() {
@@ -67,17 +72,45 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setAlert']),
     handleSelect() {
       this.selected = !this.selected;
     },
 
-    joinRoom() {
+    async joinRoom() {
       if (!this.userProfile.roomId) {
         if (this.room.password === this.password) {
-          if (this.room.members.length < this.room.length) this.$store.dispatch('joinRoom', this.room.id);
-          else alert('Sala llena');
-        } else alert('Contraseña incorrecta');
-      } else alert('Ya pertenece a una sala');
+          if (this.room.members.length < this.room.length) {
+            try {
+              await this.$store.dispatch('joinRoom', this.room.id);
+              this.setAlert({
+                state: 'success',
+                message: 'Se ha unido a una sala',
+              });
+            } catch (err) {
+              this.setAlert({
+                state: 'error',
+                message: 'No se ha podido unir a la sala, intentelo de nuevo',
+              });
+            }
+          } else {
+            this.setAlert({
+              state: 'error',
+              message: 'La sala esta llena',
+            });
+          }
+        } else {
+          this.setAlert({
+            state: 'error',
+            message: 'Contraseña incorrecta',
+          });
+        }
+      } else {
+        this.setAlert({
+          state: 'error',
+          message: 'Ya pertenece a una sala',
+        });
+      }
     },
   },
 
@@ -133,6 +166,9 @@ export default {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
+}
+
+.room__info {
   margin: 1.8em;
 }
 
@@ -209,13 +245,13 @@ export default {
 
 .join__form {
   height: 100%;
-  margin: 0 1.8em;
-  padding: 1.5em 0;
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
-  & > * {
+  margin: .8em 1.2em;
+  justify-content: space-around;
+  & > *:not(first-child) {
     width: 85%;
+    margin-bottom: .5em;
   }
 }
 </style>

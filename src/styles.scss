@@ -7,7 +7,7 @@
   --white-color: #e0dfe2;
   --light-secondary-color: #21212B;
   --dark-color: #0d111765;
-  --gray: #6f6d77;
+  --gray: #656174;
   --light-gray: #514B65;
   --danger: #eb5757;
   --success: #6fcf97;
@@ -36,6 +36,7 @@
 
   --radiusBase: 12px;
   --radiusSm: 8px;
+  --radiusMd: 11px;
 }
 
 * {
@@ -46,8 +47,9 @@
   -moz-box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, p, input, label, a {  
+h1, h2, h3, h4, h5, p, input, label, a, span {  
   font-family: var(--inter);
+  color: white;
 }
 
 h1 {
@@ -93,9 +95,4 @@ p {
 
 .hidden {
   display: none;
-}
-
-* {
-  color: var(--white-color);
-  box-sizing: border-box;
 }

@@ -2,7 +2,8 @@
   <div class='side-bar__container'>
     <div class="sidebar__logo">
         <div class='logo'>
-          <h4>Pen & Paper</h4>
+          <img src="@/assets/penandpaper.svg" alt="">
+          <h4>P & P</h4>
         </div>
       </div>
     <div class='sidebar'>
@@ -185,6 +186,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   name: 'SideBar',
   components: {},
@@ -194,9 +197,20 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setAlert']),
     logout() {
-      this.$store.dispatch('logout');
+      if (this.sharingScreen === false) this.$store.dispatch('logout');
+      else {
+        this.setAlert({
+          state: 'error',
+          message: 'No puede cerrar sesion mientras comparte pantalla',
+        });
+      }
     },
+  },
+
+  computed: {
+    ...mapState(['sharingScreen']),
   },
 };
 </script>
@@ -204,7 +218,6 @@ export default {
 <style lang='scss' scoped>
 .side-bar__container {
   background-color: var(--light-secondary-color);
-  border-right: solid 1px #222226;
 }
 
 .side-bar__container * {
@@ -212,12 +225,20 @@ export default {
 }
 
 .sidebar__logo {
-    height: 5em;
+    height: 5.5em;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    img {
+      height: 2em;
+      width: 2em;
+    }
+    h4 {
+      font-size: .7em;
+      color: var(--primary-color);
+    }
   }
 
 .sidebar {
@@ -257,7 +278,9 @@ export default {
   }
 
   .sidebar__link--active {
-    background-color: var(--secondary-color);
+    //background-color: var(--secondary-color);
+    //border-left: 3px solid var(--primary-color);
+    box-shadow: -10px 1px 0px -8.5px var(--primary-color);
     * {
       fill: var(--primary-color);
       color: var(--white-color);

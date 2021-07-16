@@ -36,6 +36,12 @@
               exact-active-class="nav__link--active"
               ><div class="nav__item">Archivos</div>
             </router-link>
+            <router-link
+              to="/home/room/repository"
+              class="nav__link"
+              exact-active-class="nav__link--active"
+              ><div class="nav__item">Recursos</div>
+            </router-link>
           </div>
         </div>
         <div class="body__content">
@@ -44,31 +50,46 @@
       </div>
       <chat/>
     </div>
-    <h3 v-else>No pertenece a ninguna sala</h3>
+    <div v-else class="room__empty-state">
+      <h3>No pertenece a ninguna sala</h3>
+      <div></div>
+    </div>
 
     <modal v-if="isModalOpen" :isOpen="isModalOpen" @close="isModalOpen = false">
       <template slot="title">Ajustes de sala</template>
-      <form class='room__form' @submit.prevent>
-        <custom-input label='Nombre de la sala' v-model='name'
-          :borderReverse="true" :required="true" :initialValue="room.name"/>
-        <custom-input label='Tema de la sala' v-model='theme'
-          :borderReverse="true" :required="true" :initialValue="room.theme"/>
-        <custom-input label='Tamaño de la sala' type='number'
-          v-model='length' class="room__length" :borderReverse="true" :required="true"
-          :min="parseInt(room.members.length, 10)" :initialValue="room.length"/>
-        <div>
-          <custom-button v-on:click='isModalOpen = false' :variant="'text2'">
-            Cancelar
-          </custom-button>
-          <custom-button v-on:click='editRoom'>Editar sala</custom-button>
-        </div>
-      </form>
+      <validation-observer tag='div' v-slot="{ handleSubmit, invalid }">
+        <form class='room__form' @submit.prevent='handleSubmit(editRoom)'>
+          <custom-input label='Nombre de la sala'
+            v-model='name'
+            :borderReverse="true"
+            rules='required'
+          />
+          <custom-input label='Tema de la sala'
+            v-model='theme'
+            :borderReverse="true"
+            rules='required'
+          />
+          <custom-input label='Tamaño de la sala' class="room__length"
+            type='number'
+            v-model='length'
+            :borderReverse="true"
+            :rules="`required|positive|min_value:${room.members.length}`"
+          />
+          <div>
+            <custom-button type="button" v-on:click='isModalOpen = false' :variant="'text2'">
+              Cancelar
+            </custom-button>
+            <custom-button type="submit" :disabled="invalid">Editar sala</custom-button>
+          </div>
+        </form>
+      </validation-observer>
     </modal>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { ValidationObserver } from 'vee-validate';
 import chat from '../components/Chat.vue';
 import CustomButton from '../components/CustomButton.vue';
 import CustomInput from '../components/CustomInput.vue';
@@ -81,6 +102,7 @@ export default {
     CustomButton,
     Modal,
     CustomInput,
+    ValidationObserver,
   },
 
   data() {
@@ -96,32 +118,62 @@ export default {
   },
 
   methods: {
-    handleFileChange(e) {
-      const index = 0;
-      this.selectedFile = e.target.files[index];
-      this.$store.dispatch('uploadFile', this.selectedFile);
+    ...mapMutations(['setAlert', 'setLoadingState']),
+    async leaveRoom() {
+      try {
+        await this.$store.dispatch('leaveRoom');
+        this.setAlert({
+          state: 'success',
+          message: 'Ha dejado la sala',
+        });
+      } catch (err) {
+        this.setAlert({
+          state: 'error',
+          message: 'No ha podido dejar la sala, intentelo de nuevo',
+        });
+      }
     },
 
-    leaveRoom() {
-      this.$store.dispatch('leaveRoom');
-    },
+    async editRoom() {
+      this.setLoadingState(true);
+      try {
+        await this.$store.dispatch('updateRooms', {
+          ...this.room,
+          id: this.room.id,
+          name: this.name !== '' ? this.name : this.room.name,
+          theme: this.theme !== '' ? this.theme : this.room.theme,
+          length: this.length !== '' ? this.length : this.room.length,
+        });
+        this.setAlert({
+          state: 'success',
+          message: 'Sala actualizada',
+        });
+      } catch (err) {
+        this.setAlert({
+          state: 'error',
+          message: 'No se ha podido editar la sala, intentelo de nuevo',
+        });
+        this.setLoadingState(false);
+      }
 
-    editRoom() {
-      this.$store.dispatch('updateRooms', {
-        ...this.room,
-        id: this.room.id,
-        name: this.name !== '' ? this.name : this.room.name,
-        theme: this.theme !== '' ? this.theme : this.room.theme,
-        length: this.length !== '' ? this.length : this.room.length,
-      });
       this.name = '';
       this.theme = '';
       this.length = '';
+      this.setLoadingState(false);
       this.isModalOpen = false;
     },
   },
 
   mounted() {
+    this.name = this.room.name;
+    this.theme = this.room.name;
+    this.length = this.room.length;
+  },
+
+  beforeUpdate() {
+    this.name = this.room.name;
+    this.theme = this.room.name;
+    this.length = this.room.length;
   },
 
   computed: {
@@ -153,6 +205,10 @@ export default {
         flex-flow: column;
       }
     }
+  }
+
+  .room__empty-state {
+    padding: 4.5%;
   }
 
   .room__menu {

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import ellipsis from './Ellipsis.vue';
 import ft from '../fileTypes';
 
@@ -60,9 +60,20 @@ export default {
   },
 
   methods: {
-    deleteFile() {
-      console.log(this.file);
-      this.$store.dispatch('deleteFile', this.file);
+    ...mapMutations(['setAlert']),
+    async deleteFile() {
+      try {
+        await this.$store.dispatch('deleteFile', this.file);
+        this.setAlert({
+          state: 'success',
+          message: 'Se ha borrado el archivo',
+        });
+      } catch (err) {
+        this.setAlert({
+          state: 'error',
+          message: 'No se ha podido borrar el archivo, intentelo de nuevo',
+        });
+      }
     },
 
     downloadFile() {
@@ -78,8 +89,7 @@ export default {
           link.click();
           document.body.removeChild(link);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
         });
     },
   },

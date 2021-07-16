@@ -121,7 +121,6 @@ export default {
       };
     },
     sendMessage() {
-      console.log('enviando mensaje...');
       if (this.message !== '') this.$store.dispatch('sendMessage', { messageContent: this.message, messageType: 'text' });
       this.message = '';
       this.$refs.chat.scrollTop = 0;

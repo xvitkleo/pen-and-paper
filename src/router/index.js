@@ -63,6 +63,11 @@ const routes = [
             path: '/home/room/share',
             component: () => import('../views/ShareScreen.vue'),
           },
+          {
+            name: 'Repository',
+            path: '/home/room/repository',
+            component: () => import('../views/Repository.vue'),
+          },
         ],
       },
       {

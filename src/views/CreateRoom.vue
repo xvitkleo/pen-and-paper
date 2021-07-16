@@ -3,24 +3,29 @@
     <div class="room__content">
       <div class='room__body'>
         <h3>Crea tu propia sala</h3>
-        <form class='room__form' @submit.prevent>
-          <custom-input label='Nombre de la sala' v-model='name'
-            :borderReverse="true" :required="true"/>
-          <custom-input label='Tema de la sala' v-model='theme'
-            :borderReverse="true" :required="true"/>
-          <custom-input label='Tamaño de la sala' type='number'
-            v-model='length' class="room__length" :borderReverse="true" :required="true" :min="0"/>
-          <custom-input label='Contraseña' type='password'
-            v-model='password' :borderReverse="true" :required="true"/>
-          <custom-button v-on:click='createRoom'>Crear sala</custom-button>
-        </form>
+        <validation-observer tag='div' v-slot="{ handleSubmit, invalid }">
+          <form class='room__form' @submit.prevent="handleSubmit(createRoom)">
+            <custom-input label='Nombre de la sala' v-model='name'
+              :borderReverse="true" rules='required' type='text'/>
+            <custom-input label='Tema de la sala' v-model='theme'
+              :borderReverse="true" rules='required' type='text'/>
+            <custom-input label='Tamaño de la sala' type='number'
+              v-model='length' class="room__length" :borderReverse="true"
+              rules='required|positive'/>
+            <custom-input label='Contraseña' type='password'
+              v-model='password' :borderReverse="true" rules='required'/>
+            <custom-button type="submit"
+              :disabled="invalid">Crear sala</custom-button>
+          </form>
+        </validation-observer>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { ValidationObserver } from 'vee-validate';
 import CustomInput from '../components/CustomInput.vue';
 import CustomButton from '../components/CustomButton.vue';
 
@@ -29,6 +34,7 @@ export default {
   components: {
     CustomButton,
     CustomInput,
+    ValidationObserver,
   },
 
   data() {
@@ -41,15 +47,32 @@ export default {
   },
 
   methods: {
-    createRoom() {
+    ...mapMutations(['setAlert']),
+    async createRoom() {
       if (!this.userProfile.roomId) {
-        this.$store.dispatch('createRoom', {
-          name: this.name,
-          theme: this.theme,
-          length: this.length,
-          password: this.password,
+        try {
+          await this.$store.dispatch('createRoom', {
+            name: this.name,
+            theme: this.theme,
+            length: this.length,
+            password: this.password,
+          });
+          this.setAlert({
+            state: 'success',
+            message: 'Ha creado una sala',
+          });
+        } catch (err) {
+          this.setAlert({
+            state: 'error',
+            message: 'No se ha podido crear una sala, intentelo de nuevo',
+          });
+        }
+      } else {
+        this.setAlert({
+          state: 'error',
+          message: 'Ya pertenece a una sala',
         });
-      } else alert('Ya pertenece a una sala');
+      }
     },
   },
 
@@ -97,7 +120,7 @@ export default {
     width: 100%;
     & > * {
       width: 100%;
-      margin-bottom: 1.2em;
+      margin-bottom: 1em;
       margin-left: 0;
     }
 

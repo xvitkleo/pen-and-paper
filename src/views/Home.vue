@@ -5,6 +5,7 @@
       <top-bar v-if="userProfile.name" :name='userProfile.name' :lastname="userProfile.lastname">
       </top-bar>
       <router-view class="view"></router-view>
+      <alert></alert>
     </div>
 
   </div>
@@ -14,12 +15,14 @@
 import { mapState } from 'vuex';
 import TopBar from '../components/TopBar.vue';
 import SideBar from '../components/SideBar.vue';
+import Alert from '../components/Alert.vue';
 
 export default {
   name: 'Home',
   components: {
     SideBar,
     TopBar,
+    Alert,
   },
 
   data() {

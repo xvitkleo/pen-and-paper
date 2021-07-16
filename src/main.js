@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import { auth } from './firebase';
+import './validation';
 
 import './styles.scss';
 
@@ -17,7 +18,6 @@ auth.onAuthStateChanged((user) => {
       render: (h) => h(App),
     }).$mount('#app');
   }
-
   if (user) {
     store.dispatch('fetchData', user);
   }

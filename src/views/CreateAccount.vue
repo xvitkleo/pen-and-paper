@@ -9,31 +9,39 @@
     </div>
 
     <div class='leftView'>
-      <form @submit="signUp">
-        <h2>Crear Cuenta.</h2>
-        <div class="namesData">
-          <custom-input placeholder="Nombre" v-model="signupForm.name" :required="true"/>
-          <custom-input placeholder="Apellido" v-model="signupForm.lastname" :required="true"/>
-        </div>
+      <ValidationObserver
+        ref="form"
+        v-slot="{ handleSubmit }"
+      >
+        <form @submit.prevent="handleSubmit(signUp)">
+          <h2>Crear Cuenta.</h2>
+          <div class="namesData">
+            <custom-input placeholder="Nombre" v-model="signupForm.name" rules="required"/>
+            <custom-input placeholder="Apellido" v-model="signupForm.lastname" rules="required"/>
+          </div>
 
-        <custom-input placeholder="Email" type="email" v-model="signupForm.email" :required="true"/>
-        <custom-input placeholder="Contraseña" type="password"
-          v-model="signupForm.password" :required="true" />
-        <custom-button type="submit">Crear Cuenta.</custom-button>
+          <custom-input :vid="'email'" placeholder="Email"
+            type="email" v-model="signupForm.email" rules="required"
+          />
+          <custom-input :vid="'password'" placeholder="Contraseña" type="password"
+            v-model="signupForm.password" rules="required"/>
+          <custom-button type="submit">Crear Cuenta.</custom-button>
 
-        <div class="login">
-          <h4>¿Tienes una cuenta?</h4>
-          <router-link to='/login'>
-            <h4 class="btn login">Iniciar Sesion</h4>
-          </router-link>
-        </div>
-
-      </form>
+          <div class="login">
+            <h4>¿Tienes una cuenta?</h4>
+            <router-link to='/login'>
+              <h4 class="btn login">Iniciar Sesion</h4>
+            </router-link>
+          </div>
+        </form>
+      </ValidationObserver>
     </div>
   </div>
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate';
+import { mapMutations } from 'vuex';
 import CustomButton from '../components/CustomButton.vue';
 import CustomInput from '../components/CustomInput.vue';
 
@@ -43,6 +51,7 @@ export default {
   components: {
     CustomButton,
     CustomInput,
+    ValidationObserver,
   },
   data() {
     return {
@@ -56,14 +65,48 @@ export default {
   },
 
   methods: {
-    signUp() {
-      this.$store.dispatch('signup', {
-        email: this.signupForm.email,
-        password: this.signupForm.password,
-        name: this.signupForm.name,
-        lastname: this.signupForm.lastname,
-        photoURL: '',
-      });
+    ...mapMutations(['setAlert']),
+    async signUp() {
+      try {
+        await this.$store.dispatch('signup', {
+          email: this.signupForm.email,
+          password: this.signupForm.password,
+          name: this.signupForm.name,
+          lastname: this.signupForm.lastname,
+          photoURL: '',
+        });
+        this.setAlert({
+          state: 'success',
+          message: 'Ha creado su cuenta',
+        });
+      } catch (e) {
+        this.setErrorMessage(e);
+      }
+    },
+
+    setErrorMessage(error) {
+      switch (error.code) {
+        case 'auth/weak-password':
+          this.$refs.form.setErrors({
+            password: ['La contraseña debe tener al menos 6 caracteres.'],
+          });
+          break;
+        case 'auth/invalid-email':
+          this.$refs.form.setErrors({
+            email: ['El correo ingresado es invalido.'],
+          });
+          break;
+        case 'auth/email-already-in-use':
+          this.$refs.form.setErrors({
+            email: ['El correo ya ha sido utilizado.'],
+          });
+          break;
+        default:
+          this.$refs.form.setErrors({
+            password: ['Ocurrio un error, por favor inténtalo de nuevo.'],
+          });
+          break;
+      }
     },
   },
 };

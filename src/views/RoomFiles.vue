@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import SearchInput from '../components/SearchInput.vue';
 import FileCard from '../components/FileCard.vue';
 
@@ -49,10 +49,22 @@ export default {
   },
 
   methods: {
-    handleFileChange(e) {
+    ...mapMutations(['setAlert']),
+    async handleFileChange(e) {
       const index = 0;
       this.selectedFile = e.target.files[index];
-      this.$store.dispatch('uploadFile', this.selectedFile);
+      try {
+        await this.$store.dispatch('uploadFile', this.selectedFile);
+        this.setAlert({
+          state: 'success',
+          message: 'Ha subido un archivo',
+        });
+      } catch (err) {
+        this.setAlert({
+          state: 'error',
+          message: 'No se ha podido subir el archivo, intentelo de nuevo',
+        });
+      }
     },
   },
 
